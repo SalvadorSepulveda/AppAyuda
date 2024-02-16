@@ -32,14 +32,14 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import netscape.javascript.JSObject;
 
-public class HelloApplication extends Application {
+public class WebViewSample extends Application {
     private Scene scene;
     @Override
     public void start(Stage stage) {
         stage.setTitle("AppAyuda");
         scene = new Scene(new Browser(),750,500, Color.web("#666970"));
         stage.setScene(scene);
-        scene.getStylesheets().add( HelloApplication.class.getResource("css/BrowserToolbar.css").toExternalForm());
+        scene.getStylesheets().add( WebViewSample.class.getResource("css/BrowserToolbar.css").toExternalForm());
         stage.show();
     }
     public static void main(String[] args){
@@ -69,8 +69,8 @@ class Browser extends Region {
         "https://twitter.com/losMontecillos",
         "https://educacionadistancia.juntadeandalucia.es/centros/",
         "https://www.facebook.com/ieslosmontecillos/?locale=es_ES",
-        "http://www.oracle.com/products/index.html",
-        HelloApplication.class.getResource("help.html").toExternalForm()
+        "https://docs.oracle.com/javase/idex.html",
+        WebViewSample.class.getResource("help.html").toExternalForm()
     };
 
     final ImageView selectedImage = new ImageView();
@@ -95,7 +95,6 @@ class Browser extends Region {
             hpl.setGraphic(new ImageView (image));
             final String url = urls[i];
             final boolean addButton = (hpl.getText().equals("Help"));
-
             hpl.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -106,14 +105,12 @@ class Browser extends Region {
         }
 
         comboBox.setPrefSize(120,20);
-
         toolBar = new HBox();
         toolBar.setAlignment(Pos.CENTER);
         toolBar.getStyleClass().add("browser-toolbar");
         toolBar.getChildren().addAll(hpls);
         toolBar.getChildren().add(comboBox);
         toolBar.getChildren().add(createSpacer());
-
         toggleHelpTopics.setOnAction(new EventHandler() {
             @Override
             public void handle(Event t) {
@@ -121,7 +118,7 @@ class Browser extends Region {
             }
         });
         smallView.setPrefSize(120, 80);
-
+        //handle popup windows
         webEngine.setCreatePopupHandler(
             new Callback<PopupFeatures, WebEngine>() {
                 @Override public WebEngine call(PopupFeatures config) {
@@ -168,7 +165,6 @@ class Browser extends Region {
             }
         );
         webEngine.load("http://www.ieslosmontecillos.es");
-
         getChildren().add(toolBar);
         getChildren().add(browser);
     }
